@@ -39,8 +39,11 @@ const TextBox = ({ bmiValue }) => {
   };
   useEffect(() => {
     new Promise((res, rej) => {
-      if (typeof bmiValue === "number") res(bmiValue);
-      else rej("Error! \nไม่สามารถคำนวณได้โปรดลองใหม่อีกครั้ง");
+      try{
+        res(bmiValue);
+      } catch(err){
+        rej(new Error(`Error!\n${err}`))
+      }
     })
       .then((result) => {
         setBmi(result);
@@ -61,7 +64,7 @@ const TextBox = ({ bmiValue }) => {
         <div className="show-description">
           {status ? (
             <>
-              <h2 className="level">{level}</h2>
+              <h2 className="level" style={{color:color}}>{level}</h2>
               <p className="description">{description}</p>
             </>
           ) : (
